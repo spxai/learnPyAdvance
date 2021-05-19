@@ -7,6 +7,8 @@ import struct
 import codecs
 import importlib.util
 import sys
+import py_compile
+py_compile.compile('learnbytecode-3-1.py')
 
 def getFileInfo(fname):
     import os
@@ -21,13 +23,11 @@ bitField=f.read(4)
 moddate = f.read(4)
 fileSize=f.read(4)
 fileSz=struct.unpack("=L", fileSize)[0]
-code=f.read()
 modtime = time.strftime("%Y-%m-%d %H:%M:%S",(time.localtime(struct.unpack('=L', moddate)[0])))
 print(f"magic {codecs.encode(magic,'hex')}")
 print(f"bitField {codecs.encode(bitField,'hex')}")
 print(f"moddate :{modtime}")
 print(f"fileSize :{fileSz}")
-f.seek(16)
 co = marshal.load(f)
 print(dis.dis(co))
 f.close()
@@ -44,7 +44,7 @@ f.write(magic_generate)
 f.write(bitField_generate)
 f.write(moddate_generate)
 f.write(srcFileSize_generate)
-f.write(code)
+marshal.dump(co,f)
 f.close()
 
 f = open("byc-generate/learnbytecode-3-1.cpython-39.pyc ", "rb")
