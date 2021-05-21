@@ -8,8 +8,7 @@ import codecs
 import importlib.util
 import sys
 import os
-import py_compile
-py_compile.compile('learnbytecode-3-1.py')
+
 
 def getFileInfo(fname):
     import os
